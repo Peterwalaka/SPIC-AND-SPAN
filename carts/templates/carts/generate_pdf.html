@@ -1,0 +1,89 @@
+{% load cart_icon %}
+
+<html>
+    <style>
+    .header{
+        text-align: center;
+    }
+</style>
+    <head>
+          <div class="container my-4">
+        <h2 class="header">Sold products report</h2>
+    </div>  
+      
+    </head>
+      
+    <div class="container">
+        <div class="row justify-content-center">
+        <div class="col-md-4">
+    <table class="table">
+        
+           
+         <thead>
+                <tr>
+                    <th class scope="col"><span class="row-3"></span>
+                   
+                    <th scope="col">Order number</th>
+                    <th scope="col">shipping address</th>
+                    <th scope="col">Pay date</th>
+                   
+                   
+                    </th> 
+                  
+                     
+                    <th><span class="row-3"></span>
+                    <th scope="col">product name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">total paid</th>
+                    </th>
+                    
+
+                </tr>       
+        </thead>
+       <tbody>
+            {% for order in orders %}
+            <tr>
+              
+                <th scope="col"><td>{{forloop.counter}}</td></th>
+                <td scope="col"><td>{{order.payment.issued_data}}</td></td>
+               
+
+            <th scope="col mr-0">
+                           
+            {% for item in order.items.all %}
+          
+            <th scope="col">{{item.item.name}}</th>
+            <th scope="col">{{item.quantity}}</th>
+            <th scope="col">{{ item.get_total|floatformat:2 }} $</th>
+            
+            {% endfor %}
+                    
+             </th>
+
+            </tr>
+           <tr>
+                        <td colspan="2" class="text-right"></td>
+                        <td>
+                            <small >
+                                {{ order.shipping_address.first_name }} {{ order.shipping_address.last_name }} <br>
+                                {{ order.shipping_address.street }} {{ order.shipping_address.street_number }} <br>
+                                {{ order.shipping_address.zip_code }} <br>
+                                {{ order.shipping_address.country }}
+                            </small >
+                        </td>
+                    </tr>
+    
+             {% endfor %}
+
+
+        </tbody>
+    
+         
+
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+    </html>
+   
