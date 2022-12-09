@@ -1,0 +1,19 @@
+{% extends "products/base.html" %}
+{% block content %}
+<hr>
+<article class="content" xmlns="http://www.w3.org/1999/html">
+      <h1>{{ feedback.name }}</h1>
+      <h1>{{ feedback.product }}</h1>
+      <time>{{ feedback.posted_on }} </time>
+        <p>{{ user.username }}</p>
+        <h2>Add Feedback</h2>
+        <form method="post" action="POST"
+
+              {{ form.as_table }}
+              <input type="submit" value="Post Feedback">
+        </form>
+    </article>
+<a  class="btn btn-outline-dark" href="{% url 'products:home-page' %}">&#x2190; Back to services</a>
+<br/><br/>
+<hr>
+{% endblock %}

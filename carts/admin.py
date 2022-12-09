@@ -5,6 +5,7 @@ from .models import Order
 from .models import Refund
 
 
+
 def make_refund_accepted(modeladmin, request, queryset):
     queryset.update(refund_requested=False, refund_granted=True)
 
@@ -38,3 +39,4 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Refund)
+

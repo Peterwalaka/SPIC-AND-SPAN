@@ -2,16 +2,16 @@
 {% load static %}
 {% block content %}
     <div class="container my-4">
-        <h2 class="text-center my-4">Your Cart</h2>
+        <h2 class="text-center my-4">My Service Bookings</h2>
         {% include "products/messages.html" %}
         <table class="table">
             {% if order.items.all %}
             <thead>
                 <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
+                    <th scope="col">Service</th>
+                    <th scope="col">Square feet</th>
                     <th scope="col">Price</th>
-                    <th scope="col" class="text-center">Amount</th>
+                    <th scope="col" class="text-center">Total</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -25,35 +25,35 @@
                             <span>{{ item.quantity }}</span>
                             <a href="{% url 'carts:increase-product-in-cart' item.item.id %}"><span class="badge badge-dark ml-2"><i class="fas fa-plus"></i></span></a>
                         </td>
-                        <td>{{ item.item.price|floatformat:2 }} $</td>
-                        <td class="text-center">{{ item.get_total|floatformat:2 }} $</td>
+                        <td>Ksh{{ item.item.price|floatformat:2 }}</td>
+                        <td class="text-center">Ksh{{ item.get_total|floatformat:2 }}</td>
                         <td class="text-right">
                             <a class="btn btn-danger" href="{% url 'carts:remove-from-cart' item.item.id %}"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 {% empty %}
                     <div class="alert alert-info" role="alert">
-                        The cart is empty
+                        You have not selected any service
                     </div>
                 {% endfor %}
                 {% if order.promo_code_applied %}
                     <tr>
                         <td colspan="3"></td>
                         <td class="text-center text-success">
-                            Discount: <span class="font-weight-bold">-{{ order.promo_code_discount|floatformat:2 }} $</span>
+                            Discount: <span class="font-weight-bold">-Ksh.{{ order.promo_code_discount|floatformat:2 }}</span>
                         </td>
                     </tr>
                 {% endif %}
                 <tr>
                     <td colspan="3">
-                        <a class="btn btn-warning" href="{% url 'products:home-page' %}">Back to Home Page</a>
+                        <a  class="btn btn-outline-dark" href="{% url 'products:home-page' %}">&#x2190; Back to services</a>
                     </td>
                     {% if order.items.all %}
                     <td class="text-center">
-                        Total: <span class="font-weight-bold ml-1">{{ order.get_total_amount|floatformat:2 }} $</span>
+                        Total: <span class="font-weight-bold ml-1">Ksh.{{ order.get_total_amount|floatformat:2 }}</span>
                     </td>
                     <td>
-                        <a class="btn btn-info btn-block" href="{% url 'checkout:checkout' %}">Checkout</a>
+                        <a class="btn btn-info btn-block" href="{% url 'checkout:checkout' %}">Proceed</a>
                     </td>
                     {% endif %}
                 </tr>

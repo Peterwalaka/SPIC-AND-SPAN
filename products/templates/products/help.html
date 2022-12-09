@@ -1,0 +1,84 @@
+{% extends "products/base.html" %}
+{% load static %}
+{% block content %}
+<h3 xmlns="http://www.w3.org/1999/html">Help</h3>
+<h4><p>Welcome to the customer guide page</p></h4>
+    <div class="row">
+	<div class="col-lg-12">
+		<div class="box-element">
+             <a  class="btn btn-outline-dark" href="{% url 'products:home-page' %}">&#x2190; Back to services</a>
+	<br>
+	<br>
+			<body>
+            <h3>How to create an account.</h3>
+			<img class="logo-footer img-top" src="{% static 'img/login.png' %}"
+                                 alt="logo-footer" data-at2x="">
+
+			<img class="logo-footer img-top" src="{% static 'img/signUp.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>How to login</h3>
+			<img class="logo-footer img-top" src="{% static 'img/login.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<img class="logo-footer img-top" src="{% static 'img/loginpg.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>How to logout</h3>
+			<img class="logo-footer img-top" src="{% static 'img/logout.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>Main Menu</h3>
+			<img class="logo-footer img-top" src="{% static 'img/login.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>Service Page</h3>
+			<img class="logo-footer img-top" src="{% static 'img/servicepg.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>How to book for services</h3>
+			<img class="logo-footer img-top" src="{% static 'img/book.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>Where to find your selected services</h3>
+			<img class="logo-footer img-top" src="{% static 'img/selectedsc.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>View Bookings</h3>
+			<img class="logo-footer img-top" src="{% static 'img/selectedsc.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>Proceeding with service booking</h3>
+			<img class="logo-footer img-top" src="{% static 'img/proceed.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>Submitting Service address Information</h3>
+			<img class="logo-footer img-top" src="{% static 'img/shipping.png' %}"
+                                 alt="logo-footer" data-at2x="">
+			<br>
+			<hr>
+			<h3>Making Payments</h3>
+			<img class="logo-footer img-top" src="{% static 'img/payment.png' %}"
+                                 alt="logo-footer" data-at2x="">
+
+			<br>
+			<hr>
+			</div><!-- end main-text-->
+		</div><!--end container-->
+	</body>
+</html>
+			</body>
+
+
+</div>
+</div>
+ {% endblock content %}

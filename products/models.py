@@ -2,15 +2,17 @@ from django.db import models
 from django.shortcuts import reverse
 from PIL import Image
 from django.contrib.auth.models import User
-
-
+from django.conf import settings
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
     def __str__(self):
         return self.name
-
 
 class Product(models.Model):
     IMG_DIMENSION = 540
@@ -23,6 +25,8 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['pk']
+        verbose_name = 'Service'
+        verbose_name_plural = 'Services'
 
     def __str__(self):
         return self.name
@@ -39,25 +43,9 @@ class Product(models.Model):
         return reverse("products:product-detail", kwargs={
             'pk': self.pk
         })
-        
-class Sell(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
-    description = models.TextField()
-    thumbnail = models.ImageField(upload_to='sells/')
-    location = models.CharField(max_length=50)
-    address = models.CharField(max_length=50)
-    price =models.FloatField()
-    negotiable = models.BooleanField()
-    phone_number = models.CharField(max_length=50)
-    name = models.CharField(max_length=50)
-           
-    class Meta:
-        ordering = ['pk']
 
-        def __str__(self):
-            return self.name
+
+
 """      
         def get_absolute_url(self):       
               return reverse('sell_detail', args=[str(self.id)]) 

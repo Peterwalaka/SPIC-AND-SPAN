@@ -20,16 +20,17 @@
                 <tr >
                     <th scope="col">Order id</th>
                     <th scope="col">Pay date</th>
-                    <th scope="col">shipping address</th>
-                    
-                    
-                
-                    
 
+
+
+
+                    <th scope="col">Cleaning address</th>
                     <th><span class="row-3"></span>
-                    <th scope="col">product name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">total paid</th>
+                    <th scope="col">Service</th>
+                    <th scope="col">Square feet</th>
+                    <th scope="col">Total paid</th>
+                    <th scope="col">Payment Approval </th>
+
                     </th>
                     
 
@@ -38,17 +39,23 @@
               <tbody>
             {% for order in orders %}
             <tr>
-                
-                <th scope="col">{{order.order_id}}</th>
-                <td scope="col">{{order.created_date}}</td>
+            <th scope="col">{{order.order_id}}</th>
+            <th scope="col">{{order.created_date}}</th>
             <th scope="col mr-0">      
             {% for item in order.items.all %}
             <th class="row"><span class="row-3">
             <th scope="col">{{item.item.name}}</th>
             <th scope="col">{{item.quantity}}</th>
-            <th scope="col">{{ item.get_total|floatformat:2 }} $</th>
+            <th scope="col">Ksh.{{ item.get_total|floatformat:2 }}</th>
+            {% endfor %}
+            {% if oder.payment == approval %}
+            <th scope="col">Status:Approved</th>
+            {% else %}
+            <th scope="col">Status:Pending...</th>
+            {% endif %}
             </th>
-            {% endfor %}    
+
+
              </th>
             </tr>
            <tr>
@@ -56,9 +63,10 @@
                         <td>
                             <small >
                                 {{ order.shipping_address.first_name }} {{ order.shipping_address.last_name }} <br>
-                                {{ order.shipping_address.street }} {{ order.shipping_address.street_number }} <br>
-                                {{ order.shipping_address.zip_code }} <br>
-                                {{ order.shipping_address.country }}
+                                {{ order.shipping_address.sub_county }} {{ order.shipping_address.ward }} <br>
+                                {{ order.shipping_address.residence_name }} <br>
+                                {{ order.shipping_address.cleaning_date }} <br>
+                                {{ order.shipping_address.phone }}
                             </small >
                 </td>
             </tr>

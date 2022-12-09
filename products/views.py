@@ -1,44 +1,54 @@
-from django.views.generic import ListView, DetailView, CreateView
-from .models import Product, Sell
+from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from .models import Product
 from django.contrib import messages
 #from django.http import HttResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from .forms import SellForm
-
-
 
 
 class HomePage(ListView):
     model = Product
     template_name = 'products/nav.html'
+    queryset = Product.objects.all()
     context_object_name = 'products'
     paginate_by = 4
 
-class SellPage(ListView):
-      
-      model = Sell
-      template_name = 'products/sell_list.html'
-      context_object_name = 'sells'
-      paginate_by = 4
-      
-      def get(self, request):
-          sells = {}
-          if request.user.is_superuser:
-                sells = Sell.objects.all()
-          else:
-            sells = Sell.objects.filter(user=request.user)   
-          return render(request, self.template_name,{'sells': sells})
-      
-class SellDetailView(DetailView):
-  model = Sell
-  template_name = 'products/sell_details.html'      
-      
-      
-      
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'products/product_details.html'
+
+class SearchResultsView(ListView):
+    model = Product
+    template_name = 'products/nav.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Product.objects.filter(name__icontains=query)
+
+
+def contact(request):
+    context = {
+        "contact": contact,
+        }
+    return render(request, 'products/contact.html', context)
+
+def about_us(request):
+    context = {
+        "about_us": about_us,
+    }
+    return render(request, 'products/about_us.html', context)
+
+def help(request):
+    context = {
+        "help": help,
+    }
+    return render(request, 'products/help.html', context)
+
+
+
+
+
 """ 
 class SellDetailView(DetailView):
     model = Sell
@@ -52,12 +62,7 @@ def sell_detail(request, pk):
 """
 
  
-class SellItem(CreateView):
-  model = Sell
-  #fields = "__all__"
-  form_class = SellForm
-  template_name = "products/sell.html"
-  success_url = reverse_lazy("products:sell-page")
+
 """    
   
   def get_sucess_url():

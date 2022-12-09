@@ -13,6 +13,11 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
     created_date = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Service item'
+        verbose_name_plural = 'Service items'
+
+
     def __str__(self):
         return f'{self.item.name}: {self.quantity}'
 
@@ -32,6 +37,13 @@ class Order(models.Model):
     promo_code_discount = models.FloatField(default=0)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
+
+
+
+    class Meta:
+        verbose_name = 'Service booked'
+        verbose_name_plural = 'Services booked'
+
 
     def __str__(self):
         return f'{self.user.username}: {self.get_all_items()}'

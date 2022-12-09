@@ -60,12 +60,12 @@ def order_pdf(request):
 class GeneratePDF(View):
     def get(self, request, *args, **kwargs):
         orders = Order.objects.all()
-        template = get_template('carts/generate_pdf.html')
+        template = get_template('carts/order_list.html')
         context = {
             "orders":orders
         }
         html = template.render(context)
-        pdf = render_to_pdf('carts/generate_pdf.html', context)
+        pdf = render_to_pdf('carts/order_list.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
             filename = "order_%s.pdf" %("12341231")
@@ -75,12 +75,12 @@ class GeneratePDF(View):
                 content = "attachment; filename='%s'" %(filename)
             response['Content-Disposition'] = content
             return response
-        return HttpResponse("Not found")    
-       
+        return HttpResponse("Not found")
 
 
 
-   
+
+
 
 class RefundView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     template_name = 'carts/refund.html'
@@ -120,7 +120,7 @@ class AddToCartAjax(View):
     def post(self, request, product_id, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return JsonResponse({
-                'error': 'In order to add item to cart please create an account'
+                'error': 'In order to make service selections, please create an account'
             }, status=401)
         if self.request.is_ajax:
             product = get_object_or_404(Product, pk=product_id)
@@ -133,7 +133,7 @@ class AddToCartAjax(View):
                 order_item = OrderItem.objects.create(user=self.request.user, item=product)
                 order.items.add(order_item)
             return JsonResponse({
-                'msg': "Product has been successfully added to cart",
+                'msg': "The Service has been successfully selected",
                 'quantity': order_item.quantity,
                 'total_items': order.get_total_quantity()
             })
@@ -152,7 +152,7 @@ def increase_product_in_cart(request, product_id):
         order_item.save()
     else:
         order.items.create(user=request.user, item=product)
-    messages.success(request, 'Product has been added to cart.')
+    messages.success(request, 'Square foot has been added successfully.')
     return redirect('carts:show-cart')
     
 
@@ -168,11 +168,11 @@ def decrease_product_in_cart(request, product_id):
             order_item.save()
             if order_item.quantity <= 0:
                 order.items.remove(order_item)
-            messages.success(request, 'Product has been removed from cart.')
+            messages.success(request, 'Square foot has been deducted.')
         else:
-            messages.warning(request, 'This item is not in your cart.')
+            messages.warning(request, 'This service is not in your selections.')
     else:
-        messages.warning(request, 'Cart does not exists. Add some products to cart.')
+        messages.warning(request, 'Selections do not exist. Add some services to your selections.')
         return redirect('products:home-page')
     return redirect('carts:show-cart')
 
@@ -185,11 +185,11 @@ def remove_from_cart(request, product_id):
         order_item = order.items.filter(user=request.user, item=product).first()
         if order_item:
             order.items.remove(order_item)
-            messages.success(request, 'Product has been removed from cart.')
+            messages.success(request, 'Service has been removed from your selections.')
         else:
-            messages.warning(request, 'This item is not in your cart.')
+            messages.warning(request, 'This Service is not in your selections.')
     else:
-        messages.warning(request, 'Cart does not exists. First add products to cart.')
+        messages.warning(request, 'Selection does not exist. Please select services')
         return redirect('products:home-page')
     return redirect('carts:show-cart')
 

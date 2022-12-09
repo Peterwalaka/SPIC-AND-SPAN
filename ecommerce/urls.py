@@ -32,6 +32,7 @@ urlpatterns = [
     path('accounts/orders/', OrdersListView.as_view(), name='show-orders'),
     path('accounts/profile/', ShippingAddressUpdateView.as_view(), name='profile'),
     path('refund/', RefundView.as_view(), name='refund')
+
 ]
 
 if settings.DEBUG:

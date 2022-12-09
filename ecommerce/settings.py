@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 #import environ
 from decouple import config
 import os
+from .juzmin import JAZZMIN_SETTINGS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,12 +27,16 @@ SECRET_KEY = 'w3cl&bre@%3cu1l)#(zms7@uki2j*y06&ddpwtc+8n186sr%v*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.96', '192.168.100.36', '192.168.100.36', '192.168.0.104', '192.168.100.129', '127.0.0.1','192.168.0.111']
 
 
 # Application definition
+USE_TZ = False
 
 INSTALLED_APPS = [
+    'cleaning_tasks',
+    'Inventory',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,6 +90,24 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+ACCOUNT_FIRSTNAME_REQUIRED = True
+ACCOUNT_LASTNAME_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_SIGNUP_FORM_CLASS = 'products.forms.SignupForm'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
+ACCOUNT_SIGNUP_REDIRECT_URL = 'settings.LOGIN_REDIRECT_URL'
+ACCOUNT_SIGNUP_IS_ACTIVE = False
+ACCOUNT_EMAIL_MAX_LENGTH = 254
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+
+
+
+
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
@@ -156,8 +179,11 @@ LOGIN_REDIRECT_URL = '/'
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.mailtrap.io"
+EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_PORT = 587
 MAIL_USE_TLS = True
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS

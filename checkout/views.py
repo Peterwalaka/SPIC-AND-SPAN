@@ -94,7 +94,7 @@ class PaymentView(LoginRequiredMixin, View):
         payment = Payment(
             user=self.request.user,
             stripe_id=charge.id,
-            amount=order.get_total_amount()
+            amount=order.get_total_amount(),
         )
         payment.save()
         order.order_id = get_random_string(length=20)
