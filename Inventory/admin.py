@@ -7,16 +7,6 @@ from Inventory.forms import EquipmentModelForm, EquipmentAssignmentModelForm
 from Inventory.models import EquipmentAssignment, Equipment
 
 
-# Register your models here.
-
-# class InventoryTransactionInline(admin.TabularInline):
-#     model = InventoryTransaction
-#
-#
-# @admin.register(InventoryAccount)
-# class InventoryAccountAdmin(admin.ModelAdmin):
-#     inlines = [InventoryTransactionInline]
-
 def update_equipment_quantity_after_return(queryset: Iterable[EquipmentAssignment]) -> None:
     for instance in queryset:
         if not instance.tallied:
