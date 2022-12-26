@@ -15,12 +15,7 @@ from .models import Payment
 
 import stripe
 
-
 stripe.api_key = settings.STRIPE_SECRET_KEY
-import stripe
-stripe.api_key = "sk_test_51KkvODAHj7ujJ0Djd5HykRyBsowAY49lrle5HLbkH9UzrHVQEjE5i6jro1bkrWSN9cY0Z8FGQzxSkr1oAgVEuugi00BNYg2lEl"
-
-# `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token
 
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -51,7 +46,8 @@ class CheckoutView(LoginRequiredMixin, View):
             order.shipping_address = shipping_address
             order.save()
             if form.cleaned_data['save_address']:
-                current_shipping_address = ShippingAddress.objects.filter(user=self.request.user, current_address=True).first()
+                current_shipping_address = ShippingAddress.objects.filter(user=self.request.user,
+                                                                          current_address=True).first()
                 if current_shipping_address:
                     current_shipping_address.current_address = False
                     current_shipping_address.save()
@@ -70,12 +66,12 @@ class PaymentView(LoginRequiredMixin, View):
         order = Order.objects.filter(user=self.request.user, ordered=False).first()
         token = self.request.POST.get('stripeToken')
         try:
-            charge=stripe.Charge.create(
-  amount=2000,
-  currency="usd",
-  source="tok_visa",
-  description="My First Test Charge (created for API docs)",
-)
+            charge = stripe.Charge.create(
+                amount=2000,
+                currency="usd",
+                source="tok_visa",
+                description="My First Test Charge (created for API docs)",
+            )
             """
              charge = stripe.Charge.create(
               amount=round(float(order.get_total_amount() * 100)),
@@ -83,7 +79,7 @@ class PaymentView(LoginRequiredMixin, View):
               source="tok_1KlA8fIRI3YGNQKDrfMevJyX"
             )
             """
-           
+
         except stripe.error.CardError:
             messages.error(self.request, 'Payment could not be made')
             return redirect('products:home-page')
@@ -107,7 +103,6 @@ class PaymentView(LoginRequiredMixin, View):
 
 
 class ShippingAddressUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-
     form_class = ShippingAddressForm
     template_name = 'checkout/profile.html'
     success_message = "The address has been successfully updated"
@@ -124,21 +119,21 @@ class ShippingAddressUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateV
 
 class PromoCodeView(LoginRequiredMixin, View):
     def post(self, *args, **kwargs):
-            form = PromotionCodeForm(self.request.POST)
-            if form.is_valid():
-                order = Order.objects.filter(user=self.request.user, ordered=False).first()
-                if order.promo_code_applied:
-                    messages.warning(self.request, "The promotion code has been already applied")
-                    return redirect('checkout:checkout')
-                try:
-                    code = PromotionCode.objects.get(code=form.cleaned_data.get('code'))
-                except PromotionCode.DoesNotExist:
-                    messages.warning(self.request, "Provided code does not exists")
-                    return redirect('checkout:checkout')
-                order.promo_code_discount = order.get_total_amount() * code.percentage_discount
-                order.promo_code_applied = True
-                order.save()
+        form = PromotionCodeForm(self.request.POST)
+        if form.is_valid():
+            order = Order.objects.filter(user=self.request.user, ordered=False).first()
+            if order.promo_code_applied:
+                messages.warning(self.request, "The promotion code has been already applied")
                 return redirect('checkout:checkout')
+            try:
+                code = PromotionCode.objects.get(code=form.cleaned_data.get('code'))
+            except PromotionCode.DoesNotExist:
+                messages.warning(self.request, "Provided code does not exists")
+                return redirect('checkout:checkout')
+            order.promo_code_discount = order.get_total_amount() * code.percentage_discount
+            order.promo_code_applied = True
+            order.save()
+            return redirect('checkout:checkout')
 
 
 def checkout_success(request):
