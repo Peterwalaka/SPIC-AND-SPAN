@@ -1,9 +1,8 @@
+from PIL import Image
 from django.db import models
 from django.shortcuts import reverse
-from PIL import Image
-from django.contrib.auth.models import User
-from django.conf import settings
-# Create your models here.
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
@@ -13,6 +12,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     IMG_DIMENSION = 540
@@ -43,25 +43,3 @@ class Product(models.Model):
         return reverse("products:product-detail", kwargs={
             'pk': self.pk
         })
-
-
-
-"""      
-        def get_absolute_url(self):       
-              return reverse('sell_detail', args=[str(self.id)]) 
-"""                   
-"""
-        def save(self):
-            super().save()
-
-            with Image.open(self.thumbnail.path) as img:
-                if img.height > self.IMG_DIMENSION or img.width > self.IMG_DIMENSION:
-                    img.thumbnail((self.IMG_DIMENSION, self.IMG_DIMENSION))
-                    img.save(self.thumbnail.path)
-
-            def get_sell_url(self):
-             return reverse("sells:sell-detail", kwargs={
-            'pk': self.pk
-        })
-   
-"""         

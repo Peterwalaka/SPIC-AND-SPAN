@@ -1,6 +1,5 @@
 from django.db import models
 from django import forms
-from django_countries.fields import CountryField
 from django.urls import reverse
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -23,9 +22,11 @@ class ShippingAddress(models.Model):
         verbose_name_plural = 'Service addresses'
 
     def __str__(self):
-        return f'Cleaning address for {self.user.first_name} {self.user.last_name}: {self.sub_county} {self.ward} {self.residence_name}  {self.cleaning_date} {self.phone},'
+        return f'Cleaning address for {self.user.first_name} {self.user.last_name}: {self.sub_county} {self.ward}' \
+               f' {self.residence_name}  {self.cleaning_date} {self.phone},'
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse('profile')
 
 
@@ -33,7 +34,6 @@ class ShippingAddressForm(forms.ModelForm):
     save_address = forms.BooleanField(required=False, label='Save the billing address')
 
     class Meta:
-
         model = ShippingAddress
         fields = [
             'first_name',
@@ -47,26 +47,18 @@ class ShippingAddressForm(forms.ModelForm):
 
 
 class Payment(models.Model):
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     stripe_id = models.CharField(max_length=60)
     amount = models.FloatField()
     issued_data = models.DateTimeField(auto_now_add=True)
     approval = models.BooleanField('approval', default=False)
 
-
-
     class Meta:
         verbose_name = 'Finance'
         verbose_name_plural = 'Finances'
 
-
     def __str__(self):
         return f'{self.user} payment: {self.amount}, {self.approval}'
-
-
-
-
 
 
 class PromotionCode(models.Model):
